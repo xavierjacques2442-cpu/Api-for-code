@@ -8,7 +8,7 @@ let ties = 0;
 
 //---Api Configuration---//
 //--This is a practice placeholder--//
-const aCpuApiUrl = "rpsxj26-d6d3brbmg6ezcjgz.westus3-01.azurewebsites.net/api/ControllerOne/GetCpuChoice";
+const aCpuApiUrl = "https://hrpsxj26-d6d3brbmg6ezcjgz.westus3-01.azurewebsites.net/api/ControllerOne/GetCpuChoice";
 // -------DOM Elements------- //
 const aBtnModeCpu = document.getElementById("btnModeCpu");
 const aBtnModePvp = document.getElementById("btnModePvp");
