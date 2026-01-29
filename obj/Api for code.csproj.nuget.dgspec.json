@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Xavie\\OneDrive\\Documents\\level two folder\\Api for code\\Api for code.csproj": {}
+    "C:\\Users\\Xavie\\OneDrive\\Documents\\level two folder\\Project-new one\\Api for code.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Xavie\\OneDrive\\Documents\\level two folder\\Api for code\\Api for code.csproj": {
+    "C:\\Users\\Xavie\\OneDrive\\Documents\\level two folder\\Project-new one\\Api for code.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Xavie\\OneDrive\\Documents\\level two folder\\Api for code\\Api for code.csproj",
+        "projectUniqueName": "C:\\Users\\Xavie\\OneDrive\\Documents\\level two folder\\Project-new one\\Api for code.csproj",
         "projectName": "Api for code",
-        "projectPath": "C:\\Users\\Xavie\\OneDrive\\Documents\\level two folder\\Api for code\\Api for code.csproj",
+        "projectPath": "C:\\Users\\Xavie\\OneDrive\\Documents\\level two folder\\Project-new one\\Api for code.csproj",
         "packagesPath": "C:\\Users\\Xavie\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Xavie\\OneDrive\\Documents\\level two folder\\Api for code\\obj\\",
+        "outputPath": "C:\\Users\\Xavie\\OneDrive\\Documents\\level two folder\\Project-new one\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Xavie\\AppData\\Roaming\\NuGet\\NuGet.Config"
