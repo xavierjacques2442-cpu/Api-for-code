@@ -1,13 +1,13 @@
-let gameMode = 'cpu';
+let gameMode = "cpu"; // default mode
 let aPendingChoice = "";
 let playerOneScore = 0;
 let playerTwoScore = 0;
 let ties = 0;
 
-// --- API CONFIG ---
-const aCpuApiUrl = "https://hrpsxj26-d6d3brbmg6ezcjgz.westus3-01.azurewebsites.net";
+// --- CPU API ---
+const aCpuApiUrl = rpslsnewon3xj26-ebade4bcbnc4bvbh.westus3-01.azurewebsites.net;
 
-// --- DOM ELEMENTS ---
+// --- DOM Elements ---
 const aBtnModeCpu = document.getElementById("btnModeCpu");
 const aBtnModePvp = document.getElementById("btnModePvp");
 const aModeHint = document.getElementById("modeHint");
@@ -26,25 +26,22 @@ const aTiesEl = document.getElementById("ties");
 const aBtnPlayAgain = document.getElementById("btnPlayAgain");
 const aBtnReset = document.getElementById("btnReset");
 
-const btnRules = document.getElementById("btnRules");
-const rulesBox = document.getElementById("rulesBox");
+// Player 1 buttons
+const buttonsP1 = {
+  rock: document.getElementById("btnP1Rock"),
+  paper: document.getElementById("btnP1Paper"),
+  scissors: document.getElementById("btnP1Scissors"),
+  lizard: document.getElementById("btnP1Lizard"),
+  spock: document.getElementById("btnP1Spock")
+};
 
-// Player buttons
-const buttons = {
-  p1: {
-    rock: document.getElementById("btnP1Rock"),
-    paper: document.getElementById("btnP1Paper"),
-    scissors: document.getElementById("btnP1Scissors"),
-    lizard: document.getElementById("btnP1Lizard"),
-    spock: document.getElementById("btnP1Spock"),
-  },
-  p2: {
-    rock: document.getElementById("btnP2Rock"),
-    paper: document.getElementById("btnP2Paper"),
-    scissors: document.getElementById("btnP2Scissors"),
-    lizard: document.getElementById("btnP2Lizard"),
-    spock: document.getElementById("btnP2Spock"),
-  }
+// Player 2 buttons
+const buttonsP2 = {
+  rock: document.getElementById("btnP2Rock"),
+  paper: document.getElementById("btnP2Paper"),
+  scissors: document.getElementById("btnP2Scissors"),
+  lizard: document.getElementById("btnP2Lizard"),
+  spock: document.getElementById("btnP2Spock")
 };
 
 // --- RULES ---
@@ -56,16 +53,20 @@ const RULES = {
   spock: ["scissors", "rock"]
 };
 
-// --- MODE ---
+// --- MODE SWITCH ---
 function aSetMode(mode) {
   gameMode = mode;
   aPendingChoice = "";
   aClearPicksUI();
 
   if (mode === "cpu") {
+    aBtnModeCpu.classList.add("isActive");
+    aBtnModePvp.classList.remove("isActive");
     aP2Section.style.display = "none";
     aModeHint.textContent = "You are playing against the CPU.";
   } else {
+    aBtnModePvp.classList.add("isActive");
+    aBtnModeCpu.classList.remove("isActive");
     aP2Section.style.display = "block";
     aModeHint.textContent = "Player 1 picks first.";
     aP2Hint.textContent = "Waiting for Player 1...";
@@ -85,20 +86,27 @@ function aUpdateScoresUI() {
   aTiesEl.textContent = ties;
 }
 
-// --- CPU ---
+// --- FETCH CPU MOVE ---
 function aGetCpuChoiceFromAPi() {
   return fetch(aCpuApiUrl)
-    .then(r => r.text())
-    .then(t => t.trim().toLowerCase());
+    .then(res => res.json())
+    .then(data => data.cpuMove.toLowerCase())
+    .catch(err => {
+      console.error("CPU API error:", err);
+      // fallback random CPU if API fails
+      const choices = ["rock","paper","scissors","lizard","spock"];
+      return choices[Math.floor(Math.random()*choices.length)];
+    });
 }
 
-// --- GAME LOGIC ---
+// --- DETERMINE WINNER ---
 function aDetermineWinner(p1, p2) {
   if (p1 === p2) return "tie";
   if (RULES[p1].includes(p2)) return "player1";
   return "player2";
 }
 
+// --- PLAY ROUND ---
 function aBtnPlayRound(p1, p2) {
   aP1PickEl.textContent = p1;
   aP2PickEl.textContent = p2;
@@ -119,19 +127,23 @@ function aBtnPlayRound(p1, p2) {
   aUpdateScoresUI();
 }
 
-// --- HANDLERS ---
+// --- HANDLE PLAYER 1 ---
 function handleP1Choice(choice) {
   if (gameMode === "cpu") {
-    aGetCpuChoiceFromAPi().then(cpu => aBtnPlayRound(choice, cpu));
+    aP1PickEl.textContent = choice;
+    aP2PickEl.textContent = "...";
+    aRoundResultEl.textContent = "CPU is picking...";
+    aGetCpuChoiceFromAPi().then(cpuChoice => aBtnPlayRound(choice, cpuChoice));
   } else {
     aPendingChoice = choice;
     aP1PickEl.textContent = choice;
     aP2PickEl.textContent = "?";
-    aRoundResultEl.textContent = "Player 2, pick!";
+    aRoundResultEl.textContent = "Player 2, pick your move!";
     aP2Hint.textContent = "Your turn!";
   }
 }
 
+// --- HANDLE PLAYER 2 (PVP) ---
 function handleP2Choice(choice) {
   if (!aPendingChoice) return;
   aBtnPlayRound(aPendingChoice, choice);
@@ -139,18 +151,14 @@ function handleP2Choice(choice) {
   aP2Hint.textContent = "Waiting for Player 1...";
 }
 
-// --- EVENTS ---
+// --- EVENT LISTENERS ---
 aBtnModeCpu.onclick = () => aSetMode("cpu");
 aBtnModePvp.onclick = () => aSetMode("pvp");
 
-Object.keys(buttons.p1).forEach(key =>
-  buttons.p1[key].onclick = () => handleP1Choice(key)
-);
-Object.keys(buttons.p2).forEach(key =>
-  buttons.p2[key].onclick = () => handleP2Choice(key)
-);
+Object.keys(buttonsP1).forEach(key => buttonsP1[key].onclick = () => handleP1Choice(key));
+Object.keys(buttonsP2).forEach(key => buttonsP2[key].onclick = () => handleP2Choice(key));
 
-aBtnPlayAgain.onclick = aClearPicksUI;
+aBtnPlayAgain.onclick = () => aClearPicksUI();
 
 aBtnReset.onclick = () => {
   playerOneScore = playerTwoScore = ties = 0;
@@ -158,10 +166,11 @@ aBtnReset.onclick = () => {
   aUpdateScoresUI();
 };
 
+// --- RULES BUTTON ---
+const btnRules = document.getElementById("btnRules");
+const rulesBox = document.getElementById("rulesBox");
 btnRules.onclick = () => {
   rulesBox.classList.toggle("hidden");
-  btnRules.textContent = rulesBox.classList.contains("hidden")
-    ? "📜 Show Rules"
-    : "❌ Hide Rules";
+  btnRules.textContent = rulesBox.classList.contains("hidden") ? "📜 Show Rules" : "❌ Hide Rules";
 };
 

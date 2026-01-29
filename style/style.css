@@ -1,9 +1,9 @@
 * { box-sizing: border-box; }
-
 body {
   margin: 0;
   font-family: system-ui, Arial, sans-serif;
-  background: #0b1220;
+  /* Black background with image */
+  background-color: #000000; /* base black */
   color: #eef2ff;
 }
 
@@ -26,12 +26,13 @@ h1 { margin: 0 0 16px; }
 h2 { margin: 0 0 12px; font-size: 1.1rem; }
 
 .card {
-  background: #000000;
-  border: 1px solid #000000;
+  background: rgba(0, 0, 0, 0.8); /* semi-transparent black */
+  border: 1px solid #ffffff;      /* border makes it stand out */
   border-radius: 14px;
   padding: 16px;
   margin: 12px 0;
 }
+
 
 .row {
   display: flex;
@@ -86,4 +87,15 @@ h2 { margin: 0 0 12px; font-size: 1.1rem; }
 .hidden-pick {
   filter: blur(8px);
   user-select: none;
+}
+
+.image{
+background-image: url('../image/Screenshot_21-1-2026_14324_www.bing.com-removebg-preview.png');
+background-size: cover;       
+  background-position: center; 
+  background-repeat: no-repeat; 
+  border-radius: 14px;
+  margin-bottom: 16px;
+  z-index: 1;
+  position: relative;
 }
