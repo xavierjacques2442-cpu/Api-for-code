@@ -5,7 +5,8 @@ let playerTwoScore = 0;
 let ties = 0;
 
 // --- CPU API ---
-const aCpuApiUrl = rpslsnewon3xj26-ebade4bcbnc4bvbh.westus3-01.azurewebsites.net;
+const aCpuApiUrl = "https://red-cliff-0e5e9f010.4.azurestaticapps.net";
+
 
 // --- DOM Elements ---
 const aBtnModeCpu = document.getElementById("btnModeCpu");
